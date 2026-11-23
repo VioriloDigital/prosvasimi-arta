@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Διαχείριση – Προσβάσιμη Άρτα</title>
+  <meta name="theme-color" content="#0b5cad">
+  <link rel="icon" type="image/png" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body class="admin">
+  <header class="topbar">
+    <h1 class="brand"><img class="brand-logo" src="icons/icon-192.png" alt="" width="36" height="36"> Διαχείριση</h1>
+    <nav class="actions">
+      <a class="btn" href="index.html">← Στον χάρτη</a>
+    </nav>
+  </header>
+
+  <main class="admin-main" id="admin-main">
+    <p id="admin-gate" class="muted">Φόρτωση…</p>
+
+    <section id="admin-app" hidden>
+      <div class="stats" id="stats" aria-live="polite"></div>
+
+      <div class="tabs" role="tablist" aria-label="Ενότητες">
+        <button type="button" role="tab" data-tab="pending" aria-selected="true">Εκκρεμή σημεία</button>
+        <button type="button" role="tab" data-tab="photos" aria-selected="false">Εκκρεμείς φωτογραφίες</button>
+        <button type="button" role="tab" data-tab="approved" aria-selected="false">Εγκεκριμένα σημεία</button>
+        <button type="button" role="tab" data-tab="rejected" aria-selected="false">Απορριφθέντα</button>
+      </div>
+
+      <div id="panel" class="panel"></div>
+
+      <details class="card osm-box">
+        <summary><strong>Εισαγωγή σημείων από το OpenStreetMap</strong></summary>
+        <p class="muted">Φέρνει όσα σημεία της Άρτας έχουν ήδη καταγραφεί στο OpenStreetMap ως προσβάσιμα
+          (αμαξίδιο, WC ΑμεΑ, θέσεις στάθμευσης ΑμεΑ, ηχητικά φανάρια). Μπορεί να ξαναγίνει χωρίς να δημιουργηθούν διπλότυπα.</p>
+        <label class="check"><input type="checkbox" id="osm-pending" checked> Να μπουν πρώτα στα «Εκκρεμή» για έλεγχο</label>
+        <button type="button" id="btn-osm" class="btn">Εισαγωγή τώρα</button>
+      </details>
+
+      <details class="card osm-box" id="backup-box" hidden>
+        <summary><strong>Αντίγραφο ασφαλείας</strong></summary>
+        <p class="muted">Σε αυτή την έκδοση τα δεδομένα αποθηκεύονται μόνο σε αυτόν τον browser. Κατέβαζε κάθε τόσο ένα
+          αντίγραφο (σημεία, λογαριασμοί, φωτογραφίες). Με την «Επαναφορά» μπορείς να τα μεταφέρεις και σε άλλον υπολογιστή.</p>
+        <div class="row">
+          <button type="button" id="btn-export" class="btn">⬇ Λήψη αντιγράφου</button>
+          <label class="btn" for="import-file" tabindex="0" role="button">⬆ Επαναφορά από αρχείο</label>
+          <input type="file" id="import-file" accept="application/json,.json" class="sr-only">
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <dialog id="dlg-edit" aria-labelledby="edit-title">
+    <form method="dialog" class="dlg-close"><button aria-label="Κλείσιμο">×</button></form>
+    <h2 id="edit-title">Επεξεργασία σημείου</h2>
+    <form id="form-edit" novalidate>
+      <label class="field"><span>Όνομα</span><input name="name" required maxlength="120"></label>
+      <label class="field"><span>Διεύθυνση</span><input name="address" maxlength="200"></label>
+      <div class="two">
+        <label class="field"><span>Κατηγορία</span><select name="category"></select></label>
+        <label class="field"><span>Προσβασιμότητα</span>
+          <select name="level"><option value="full">Πλήρως</option><option value="partial">Μερικώς</option></select>
+        </label>
+      </div>
+      <fieldset class="field"><legend>Διαθέτει</legend><div id="edit-features" class="feature-grid"></div></fieldset>
+      <label class="field"><span>Περιγραφή</span><textarea name="description" rows="3" maxlength="2000"></textarea></label>
+      <div class="two">
+        <label class="field"><span>Πλάτος (lat)</span><input name="lat" inputmode="decimal"></label>
+        <label class="field"><span>Μήκος (lng)</span><input name="lng" inputmode="decimal"></label>
+      </div>
+      <p class="error" role="alert"></p>
+      <button class="btn primary wide" type="submit">Αποθήκευση</button>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

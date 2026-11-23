@@ -1,0 +1,14 @@
+node_modules/
+data/
+dist-cloudflare/
+arta-cloudflare.zip
+.wrangler/
+dist-local/
+Prosvasimi-Arta.zip
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+Prosvasimi-Arta.apk
+dist-static/
+arta-static.zip
